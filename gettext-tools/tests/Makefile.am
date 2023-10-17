@@ -96,7 +96,7 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-c-stackovfl-1 xgettext-c-stackovfl-2 \
 	xgettext-csharp-1 xgettext-csharp-2 xgettext-csharp-3 \
 	xgettext-csharp-4 xgettext-csharp-5 xgettext-csharp-6 \
-	xgettext-csharp-7 xgettext-csharp-8 \
+	xgettext-csharp-7 xgettext-csharp-8 xgettext-csharp-9 \
 	xgettext-csharp-stackovfl-1 xgettext-csharp-stackovfl-2 \
 	xgettext-csharp-stackovfl-3 xgettext-csharp-stackovfl-4 \
 	xgettext-desktop-1 xgettext-desktop-2 \
@@ -113,7 +113,8 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-java-stackovfl-3 xgettext-java-stackovfl-4 \
 	xgettext-javascript-1 xgettext-javascript-2 xgettext-javascript-3 \
 	xgettext-javascript-4 xgettext-javascript-5 xgettext-javascript-6 \
-	xgettext-javascript-7 \
+	xgettext-javascript-7 xgettext-javascript-8 xgettext-javascript-9 \
+	xgettext-javascript-10 xgettext-javascript-11 \
 	xgettext-javascript-stackovfl-1 xgettext-javascript-stackovfl-2 \
 	xgettext-javascript-stackovfl-3 xgettext-javascript-stackovfl-4 \
 	xgettext-javascript-stackovfl-5 xgettext-javascript-stackovfl-6 \
