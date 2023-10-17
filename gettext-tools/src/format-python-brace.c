@@ -1,6 +1,5 @@
 /* Python brace format strings.
-   Copyright (C) 2004, 2006-2007, 2013-2014, 2016, 2019 Free Software Foundation,
-   Inc.
+   Copyright (C) 2004, 2006-2007, 2013-2014, 2016, 2019, 2023 Free Software Foundation, Inc.
    Written by Daiki Ueno <ueno@gnu.org>, 2013.
 
    This program is free software: you can redistribute it and/or modify
@@ -33,17 +32,32 @@
 
 #define _(str) gettext (str)
 
-/* Python brace format strings are defined by PEP3101 together with
-   'format' method of string class.
+/* Python brace format strings are defined by PEP3101 together with the
+   'format' method of the string class.
    A format string directive here consists of
      - an opening brace '{',
      - an identifier [_A-Za-z][_0-9A-Za-z]*|[0-9]+,
-     - an optional getattr ('.') or getitem ('['..']') operator with
-       an identifier as argument,
-     - an optional format specifier starting with ':', with a
-       (unnested) format string as argument,
+     - an optional sequence of
+         - getattr ('.' identifier) or
+         - getitem ('[' identifier ']')
+       operators,
+     - optionally, a ':' and a format specifier, where a format specifier is
+       - either a format directive of the form '{' ... '}' without a format
+         specifier, or
+       - of the form [[fill]align][sign][#][0][minimumwidth][.precision][type]
+         where
+           - the fill character is any character,
+           - the align flag is one of '<', '>', '=', '^',
+           - the sign is one of '+', '-', ' ',
+           - the # flag is '#',
+           - the 0 flag is '0',
+           - minimumwidth is a non-empty sequence of digits,
+           - precision is a non-empty sequence of digits,
+           - type is one of
+             - 'b', 'c', 'd', 'o', 'x', 'X', 'n' for integers,
+             - 'e', 'E', 'f', 'F', 'g', 'G', 'n', '%' for floating-point values,
      - a closing brace '}'.
-   Brace characters '{' and '}' can be escaped by doubles '{{' and '}}'.
+   Brace characters '{' and '}' can be escaped by doubling them: '{{' and '}}'.
 */
 
 struct named_arg
@@ -60,9 +74,7 @@ struct spec
 };
 
 
-static bool parse_upto (struct spec *spec, const char **formatp,
-                        bool is_toplevel, char terminator,
-                        bool translated, char *fdi, char **invalid_reason);
+/* Forward declaration of local functions.  */
 static void free_named_args (struct spec *spec);
 
 
@@ -135,7 +147,8 @@ parse_directive (struct spec *spec,
       && !parse_numeric_field (spec, &format, translated, fdi, invalid_reason))
     {
       *invalid_reason =
-        xasprintf (_("In the directive number %u, '%c' cannot start a field name."), spec->directives, *format);
+        xasprintf (_("In the directive number %u, '%c' cannot start a field name."),
+                   spec->directives, *format);
       FDI_SET (format, FMTDIR_ERROR);
       return false;
     }
@@ -154,7 +167,8 @@ parse_directive (struct spec *spec,
                                   invalid_reason))
             {
               *invalid_reason =
-                xasprintf (_("In the directive number %u, '%c' cannot start a getattr argument."), spec->directives, *format);
+                xasprintf (_("In the directive number %u, '%c' cannot start a getattr argument."),
+                           spec->directives, *format);
               FDI_SET (format, FMTDIR_ERROR);
               return false;
             }
@@ -168,7 +182,8 @@ parse_directive (struct spec *spec,
                                        invalid_reason))
             {
               *invalid_reason =
-                xasprintf (_("In the directive number %u, '%c' cannot start a getitem argument."), spec->directives, *format);
+                xasprintf (_("In the directive number %u, '%c' cannot start a getitem argument."),
+                           spec->directives, *format);
               FDI_SET (format, FMTDIR_ERROR);
               return false;
             }
@@ -190,7 +205,8 @@ parse_directive (struct spec *spec,
       if (!is_toplevel)
         {
           *invalid_reason =
-            xasprintf (_("In the directive number %u, no more nesting is allowed in a format specifier."), spec->directives);
+            xasprintf (_("In the directive number %u, no more nesting is allowed in a format specifier."),
+                       spec->directives);
           FDI_SET (format, FMTDIR_ERROR);
           return false;
         }
@@ -200,7 +216,7 @@ parse_directive (struct spec *spec,
          specifiers below, because otherwise we would need to evaluate
          Python expressions by ourselves:
 
-           - A nested format directive expanding to the whole string
+           - A nested format directive expanding to an argument
            - The Standard Format Specifiers, as described in PEP3101,
              not including a nested format directive  */
       format++;
@@ -231,6 +247,15 @@ parse_directive (struct spec *spec,
           int c1, c2;
 
           c1 = format[0];
+          if (c1 == '\0')
+            {
+              *invalid_reason =
+                xasprintf (_("In the directive number %u, there is an unterminated format directive."),
+                           spec->directives);
+              FDI_SET (format, FMTDIR_ERROR);
+              return false;
+            }
+
           c2 = format[1];
 
           if (c2 == '<' || c2 == '>' || c2 == '=' || c2 == '^')
