@@ -163,14 +163,10 @@ struct alias_map
 };
 
 
-# ifndef _LIBC
-#  define libc_freeres_ptr(decl) decl
-# endif
-
-libc_freeres_ptr (static char *string_space);
+static char *string_space;
 static size_t string_space_act;
 static size_t string_space_max;
-libc_freeres_ptr (static struct alias_map *map);
+static struct alias_map *map;
 static size_t nmap;
 static size_t maxmap;
 
@@ -363,7 +359,14 @@ read_alias_file (const char *fname, int fname_len)
 
 		  if (string_space_act + alias_len + value_len > string_space_max)
 		    {
-		      /* Increase size of memory pool.  */
+# if defined __GNUC__ && __GNUC__ >= 12
+#  pragma GCC diagnostic push
+  /* Suppress the valid GCC 12 warning until the code below is changed
+     to avoid using pointers to the reallocated block.  */
+#  pragma GCC diagnostic ignored "-Wuse-after-free"
+# endif
+
+		    /* Increase size of memory pool.  */
 		      size_t new_size = (string_space_max
 					 + (alias_len + value_len > 1024
 					    ? alias_len + value_len : 1024));
@@ -395,6 +398,10 @@ read_alias_file (const char *fname, int fname_len)
 		    (const char *) memcpy (&string_space[string_space_act],
 					   value, value_len);
 		  string_space_act += value_len;
+
+# if defined __GNUC__ && __GNUC__ >= 12
+#  pragma GCC diagnostic pop
+# endif
 
 		  ++nmap;
 		  ++added;
@@ -450,5 +457,14 @@ alias_compare (const struct alias_map *map1, const struct alias_map *map2)
 {
   return strcasecmp (map1->alias, map2->alias);
 }
+
+# ifdef _LIBC
+void
+__libc_localealias_freemem (void)
+{
+  free (string_space);
+  free (map);
+}
+# endif
 
 #endif
