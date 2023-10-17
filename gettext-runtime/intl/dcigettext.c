@@ -59,6 +59,7 @@ extern int errno;
 
 #include <stddef.h>
 #include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
 #if defined HAVE_UNISTD_H || defined _LIBC
@@ -132,6 +133,7 @@ extern int errno;
 /* Rename the non ANSI C functions.  This is required by the standard
    because some ANSI C functions will require linking with this object
    file and the name space must not be polluted.  */
+# define strdup __strdup
 # define getcwd __getcwd
 # ifndef stpcpy
 #  define stpcpy __stpcpy
@@ -169,7 +171,7 @@ static void *mempcpy (void *dest, const void *src, size_t n);
 #endif
 
 #if !defined PATH_MAX && defined _PC_PATH_MAX
-# define PATH_MAX (pathconf ("/", _PC_PATH_MAX) < 1 ? 1024 : pathconf ("/", _PC_PATH_MAX))
+# define PATH_MAX (__pathconf ("/", _PC_PATH_MAX) < 1 ? 1024 : __pathconf ("/", _PC_PATH_MAX))
 #endif
 
 /* Don't include sys/param.h if it already has been.  */
@@ -462,6 +464,7 @@ DCIGETTEXT (const char *domainname, const char *msgid1, const char *msgid2,
   const char *categoryname;
   const char *categoryvalue;
   const char *dirname;
+  char *xdirname = NULL;
 #if defined _WIN32 && !defined __CYGWIN__
   const wchar_t *wdirname;
 #endif
@@ -521,7 +524,7 @@ DCIGETTEXT (const char *domainname, const char *msgid1, const char *msgid2,
 #ifdef HAVE_PER_THREAD_LOCALE
 # ifndef IN_LIBGLOCALE
 #  ifdef _LIBC
-  localename = strdupa (__current_locale_name (category));
+  localename = __current_locale_name (category);
 #  else
   categoryname = category_to_name (category);
 #   define CATEGORYNAME_INITIALIZED
@@ -665,35 +668,17 @@ DCIGETTEXT (const char *domainname, const char *msgid1, const char *msgid2,
       if (IS_RELATIVE_FILE_NAME (dirname))
 	{
 	  /* We have a relative path.  Make it absolute now.  */
-	  size_t dirname_len = strlen (dirname) + 1;
-	  size_t path_max;
-	  char *resolved_dirname;
-	  char *ret;
-
-	  path_max = (unsigned int) PATH_MAX;
-	  path_max += 2;		/* The getcwd docs say to do this.  */
-
-	  for (;;)
-	    {
-	      resolved_dirname = (char *) alloca (path_max + dirname_len);
-	      ADD_BLOCK (block_list, resolved_dirname);
-
-	      __set_errno (0);
-	      ret = getcwd (resolved_dirname, path_max);
-	      if (ret != NULL || errno != ERANGE)
-		break;
-
-	      path_max += path_max / 2;
-	      path_max += PATH_INCR;
-	    }
-
-	  if (ret == NULL)
-	    /* We cannot get the current working directory.  Don't signal an
-	       error but simply return the default string.  */
+	  char *cwd = getcwd (NULL, 0);
+	  if (cwd == NULL)
+	    /* We cannot get the current working directory.  Don't
+	       signal an error but simply return the default
+	       string.  */
 	    goto return_untranslated;
-
-	  stpcpy (stpcpy (strchr (resolved_dirname, '\0'), "/"), dirname);
-	  dirname = resolved_dirname;
+	  int ret = __asprintf (&xdirname, "%s/%s", cwd, dirname);
+	  free (cwd);
+	  if (ret < 0)
+	    goto return_untranslated;
+	  dirname = xdirname;
 	}
 #endif
 #ifndef IN_LIBGLOCALE
@@ -814,6 +799,7 @@ DCIGETTEXT (const char *domainname, const char *msgid1, const char *msgid2,
 	    {
 	      /* Found the translation of MSGID1 in domain DOMAIN:
 		 starting at RETVAL, RETLEN bytes.  */
+	      free (xdirname);
 	      FREE_BLOCKS (block_list);
 	      if (foundp == NULL)
 		{
@@ -897,6 +883,7 @@ DCIGETTEXT (const char *domainname, const char *msgid1, const char *msgid2,
 
  return_untranslated:
   /* Return the untranslated MSGID.  */
+  free (xdirname);
   FREE_BLOCKS (block_list);
   gl_rwlock_unlock (_nl_state_lock);
 #ifdef _LIBC
