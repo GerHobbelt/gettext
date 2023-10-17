@@ -99,6 +99,8 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-csharp-stackovfl-3 xgettext-csharp-stackovfl-4 \
 	xgettext-desktop-1 xgettext-desktop-2 \
 	xgettext-elisp-1 xgettext-elisp-2 \
+	xgettext-elisp-stackovfl-1 xgettext-elisp-stackovfl-2 \
+	xgettext-elisp-stackovfl-3 xgettext-elisp-stackovfl-4 \
 	xgettext-glade-1 xgettext-glade-2 xgettext-glade-3 xgettext-glade-4 \
 	xgettext-glade-5 xgettext-glade-6 xgettext-glade-7 \
 	xgettext-gsettings-1 \
@@ -115,7 +117,9 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-javascript-stackovfl-5 xgettext-javascript-stackovfl-6 \
 	xgettext-javascript-stackovfl-7 xgettext-javascript-stackovfl-8 \
 	xgettext-librep-1 xgettext-librep-2 \
+	xgettext-librep-stackovfl-1 xgettext-librep-stackovfl-2 \
 	xgettext-lisp-1 xgettext-lisp-2 \
+	xgettext-lisp-stackovfl-1 xgettext-lisp-stackovfl-2 \
 	xgettext-lua-1 xgettext-lua-2 \
 	xgettext-objc-1 xgettext-objc-2 \
 	xgettext-perl-1 xgettext-perl-2 xgettext-perl-3 xgettext-perl-4 \
@@ -132,6 +136,7 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-ruby-1 \
 	xgettext-scheme-1 xgettext-scheme-2 xgettext-scheme-3 \
 	xgettext-scheme-4 \
+	xgettext-scheme-stackovfl-1 xgettext-scheme-stackovfl-2 \
 	xgettext-sh-1 xgettext-sh-2 xgettext-sh-3 xgettext-sh-4 xgettext-sh-5 \
 	xgettext-sh-6 xgettext-sh-7 \
 	xgettext-smalltalk-1 xgettext-smalltalk-2 \
@@ -206,7 +211,8 @@ EXTRA_DIST += init.sh init.cfg $(TESTS) \
 	gettextpo-1.de.po \
 	xgettext-1 \
 	xgettext-c-1 xg-c-comment-6.c xg-c-escape-3.c xg-vala-2.vala \
-	common/supplemental/plurals.xml
+	common/supplemental/plurals.xml \
+	testdata/xg-el-so-3.el testdata/xg-el-so-4.el
 
 XGETTEXT = ../src/xgettext
 
