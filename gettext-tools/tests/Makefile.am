@@ -91,9 +91,12 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-c-format-4 xgettext-c-format-5 \
 	xgettext-c-ctxt-1 xgettext-c-ctxt-2 xgettext-c-ctxt-3 \
 	xgettext-c-c++-1 xgettext-c-c++-2 \
+	xgettext-c-stackovfl-1 xgettext-c-stackovfl-2 \
 	xgettext-csharp-1 xgettext-csharp-2 xgettext-csharp-3 \
 	xgettext-csharp-4 xgettext-csharp-5 xgettext-csharp-6 \
 	xgettext-csharp-7 xgettext-csharp-8 \
+	xgettext-csharp-stackovfl-1 xgettext-csharp-stackovfl-2 \
+	xgettext-csharp-stackovfl-3 xgettext-csharp-stackovfl-4 \
 	xgettext-desktop-1 xgettext-desktop-2 \
 	xgettext-elisp-1 xgettext-elisp-2 \
 	xgettext-glade-1 xgettext-glade-2 xgettext-glade-3 xgettext-glade-4 \
@@ -102,9 +105,15 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-its-1 xgettext-its-2 \
 	xgettext-java-1 xgettext-java-2 xgettext-java-3 xgettext-java-4 \
 	xgettext-java-5 xgettext-java-6 xgettext-java-7 \
+	xgettext-java-stackovfl-1 xgettext-java-stackovfl-2 \
+	xgettext-java-stackovfl-3 xgettext-java-stackovfl-4 \
 	xgettext-javascript-1 xgettext-javascript-2 xgettext-javascript-3 \
 	xgettext-javascript-4 xgettext-javascript-5 xgettext-javascript-6 \
 	xgettext-javascript-7 \
+	xgettext-javascript-stackovfl-1 xgettext-javascript-stackovfl-2 \
+	xgettext-javascript-stackovfl-3 xgettext-javascript-stackovfl-4 \
+	xgettext-javascript-stackovfl-5 xgettext-javascript-stackovfl-6 \
+	xgettext-javascript-stackovfl-7 xgettext-javascript-stackovfl-8 \
 	xgettext-librep-1 xgettext-librep-2 \
 	xgettext-lisp-1 xgettext-lisp-2 \
 	xgettext-lua-1 xgettext-lua-2 \
@@ -118,6 +127,8 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-rst-1 xgettext-rst-2 \
 	xgettext-python-1 xgettext-python-2 xgettext-python-3 \
 	xgettext-python-4 \
+	xgettext-python-stackovfl-1 xgettext-python-stackovfl-2 \
+	xgettext-python-stackovfl-3 xgettext-python-stackovfl-4 \
 	xgettext-ruby-1 \
 	xgettext-scheme-1 xgettext-scheme-2 xgettext-scheme-3 \
 	xgettext-scheme-4 \
