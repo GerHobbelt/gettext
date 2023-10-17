@@ -119,7 +119,8 @@ if ! $skip_gnulib; then
     lock
     relocatable-lib-lgpl
     tsearch
-    vasnprintf
+    vasnprintf-posix
+    vasnwprintf-posix
   '
   GNULIB_SETLOCALE_DEPENDENCIES=`$GNULIB_TOOL --extract-dependencies setlocale | sed -e 's/ .*//'`
   $GNULIB_TOOL --dir=gettext-runtime/intl --source-base=gnulib-lib --m4-base=gnulib-m4 --lgpl=2 --libtool --local-dir=gnulib-local --local-symlink \
@@ -181,9 +182,7 @@ if ! $skip_gnulib; then
     lock
     mem-hash-map
     memchr
-    memmem
     memmove
-    memrchr
     memset
     minmax
     mkdir
@@ -213,6 +212,7 @@ if ! $skip_gnulib; then
     strchrnul
     strcspn
     strerror
+    string-desc
     strpbrk
     strtol
     strtoul
@@ -342,8 +342,6 @@ if ! $skip_gnulib; then
     libunistring-optional
     markup
     mem-hash-map
-    memmem
-    memrchr
     minmax
     open
     relocatable-lib
@@ -355,6 +353,7 @@ if ! $skip_gnulib; then
     stpncpy
     strchrnul
     strerror
+    string-desc
     unictype/ctype-space
     unilbrk/ulc-width-linebreaks
     unistr/u8-mbtouc

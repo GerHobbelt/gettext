@@ -71,8 +71,6 @@ EXTRA_DIST += \
   loadinfo.h \
   plural-exp.h \
   eval-plural.h \
-  wprintf-parse.h \
-  vasnprintf.h vasnwprintf.h \
   intl-exports.c os2compat.h os2compat.c \
   libgnuintl.in.h
 
@@ -365,7 +363,7 @@ plural.lo:           ../config.h $(srcdir)/plural-exp.h $(PLURAL_DEPS)
 plural-exp.lo:       ../config.h $(srcdir)/plural-exp.h
 langprefs.lo:        ../config.h
 log.lo:              ../config.h
-printf.lo:           ../config.h $(srcdir)/wprintf-parse.h $(srcdir)/vasnprintf.h $(srcdir)/vasnwprintf.h
+printf.lo:           ../config.h
 setlocale.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
 version.lo:          ../config.h libgnuintl.h
 osdep.lo:            ../config.h $(srcdir)/intl-exports.c $(srcdir)/os2compat.c
