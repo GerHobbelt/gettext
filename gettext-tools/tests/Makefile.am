@@ -127,8 +127,12 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-objc-1 xgettext-objc-2 \
 	xgettext-perl-1 xgettext-perl-2 xgettext-perl-3 xgettext-perl-4 \
 	xgettext-perl-5 xgettext-perl-6 xgettext-perl-7 xgettext-perl-8 \
+	xgettext-perl-stackovfl-1 xgettext-perl-stackovfl-2 \
+	xgettext-perl-stackovfl-3 xgettext-perl-stackovfl-4 \
 	xgettext-php-1 xgettext-php-2 xgettext-php-3 xgettext-php-4 \
-	xgettext-po-1 xgettext-po-2 \
+	xgettext-php-stackovfl-1 xgettext-php-stackovfl-2 \
+	xgettext-php-stackovfl-3 xgettext-php-stackovfl-4 \
+	xgettext-po-1 xgettext-po-2 xgettext-po-3 xgettext-po-4 \
 	xgettext-properties-1 xgettext-properties-2 xgettext-properties-3 \
 	xgettext-properties-4 \
 	xgettext-rst-1 xgettext-rst-2 \
@@ -153,6 +157,8 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-vala-1 xgettext-vala-2 \
 	xgettext-vala-stackovfl-1 xgettext-vala-stackovfl-2 \
 	xgettext-ycp-1 xgettext-ycp-2 xgettext-ycp-3 xgettext-ycp-4 \
+	xgettext-ycp-stackovfl-1 xgettext-ycp-stackovfl-2 \
+	xgettext-ycp-stackovfl-3 xgettext-ycp-stackovfl-4 \
 	format-awk-1 format-awk-2 \
 	format-boost-1 format-boost-2 \
 	format-c-1 format-c-2 format-c-3 format-c-4 format-c-5 \
@@ -221,7 +227,8 @@ EXTRA_DIST += init.sh init.cfg $(TESTS) \
 	xgettext-1 \
 	xgettext-c-1 xg-c-comment-6.c xg-c-escape-3.c xg-vala-2.vala \
 	common/supplemental/plurals.xml \
-	testdata/xg-el-so-3.el testdata/xg-el-so-4.el
+	testdata/xg-el-so-3.el testdata/xg-el-so-4.el \
+	testdata/xg-po-3.po testdata/xg-po-4.po
 
 XGETTEXT = ../src/xgettext
 
