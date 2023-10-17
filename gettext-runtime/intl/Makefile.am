@@ -32,10 +32,9 @@ MAINTAINERCLEANFILES =
 SUFFIXES =
 
 # -DBUILDING_LIBINTL: Change expansion of LIBINTL_DLL_EXPORTED macro.
-# -DBUILDING_DLL: Change expansion of RELOCATABLE_DLL_EXPORTED macro.
 AM_CPPFLAGS = \
   -Ignulib-lib -I$(srcdir)/gnulib-lib \
-  -DLOCALEDIR=$(localedir_c_make) -DLOCALE_ALIAS_PATH=\"$(aliaspath)\" \
+  -DLOCALEDIR=$(localedir_c_make) \
   -DLIBDIR=\"$(libdir)\" -DBUILDING_LIBINTL
 
 if WOE32
@@ -114,7 +113,7 @@ EXTRA_DIST += \
 #                       libintl_freelocale
 #   setlocale.c:        libintl_newlocale
 #                       libintl_setlocale
-#   relocatable.c:      libintl_set_relocation_prefix
+#   compat.c:           libintl_set_relocation_prefix
 #
 # The following files implement private API.
 #   gettextP.h:     dcigettext.c:       libintl_dcigettext
@@ -203,7 +202,8 @@ LIBINTLSOURCES = \
   setlocale.c \
   version.c \
   osdep.c \
-  intl-compat.c
+  intl-compat.c \
+  compat.c
 
 # We must not install the libintl.h/libintl.la files if we are on a
 # system which has the GNU gettext() function in its C library or in a
@@ -361,6 +361,8 @@ osdep.lo: $(srcdir)/osdep.c
 	$(AM_V_CC)$(LTCOMPILE) -c -o $@ $(srcdir)/osdep.c
 intl-compat.lo: $(srcdir)/intl-compat.c
 	$(AM_V_CC)$(LTCOMPILE) -c -o $@ $(srcdir)/intl-compat.c
+compat.lo: $(srcdir)/compat.c
+	$(AM_V_CC)$(LTCOMPILE) -c -o $@ $(srcdir)/compat.c
 
 # Dependencies.
 
@@ -394,6 +396,7 @@ setlocale.lo:        ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo
 version.lo:          ../config.h libgnuintl.h
 osdep.lo:            ../config.h $(srcdir)/intl-exports.c $(srcdir)/os2compat.c
 intl-compat.lo:      ../config.h $(srcdir)/gettextP.h libgnuintl.h $(srcdir)/gmo.h $(srcdir)/loadinfo.h
+compat.lo:           ../config.h libgnuintl.h
 
 # Version information according to Woe32 conventions.
 EXTRA_DIST += libintl.rc
@@ -503,57 +506,6 @@ installdirs-preloadable:
 uninstall-local: uninstall-preloadable
 uninstall-preloadable:
 	rm -f $(DESTDIR)$(libdir)/preloadable_libintl.so
-
-endif
-
-
-# Installation of locale.alias.
-
-EXTRA_DIST += locale.alias ref-add.sin ref-del.sin
-
-if USE_INCLUDED_LIBINTL
-
-all-local: ref-add.sed ref-del.sed
-
-ref-add.sed: $(srcdir)/ref-add.sin
-	sed -e '/^#/d' -e 's/@''PACKAGE''@/@PACKAGE@/g' $(srcdir)/ref-add.sin > t-ref-add.sed
-	mv t-ref-add.sed ref-add.sed
-MOSTLYCLEANFILES += ref-add.sed
-
-ref-del.sed: $(srcdir)/ref-del.sin
-	sed -e '/^#/d' -e 's/@''PACKAGE''@/@PACKAGE@/g' $(srcdir)/ref-del.sin > t-ref-del.sed
-	mv t-ref-del.sed ref-del.sed
-MOSTLYCLEANFILES += ref-del.sed
-
-install-data-local: install-data-aliasfile
-install-data-aliasfile: ref-add.sed
-	$(mkdir_p) $(DESTDIR)$(localedir)
-	test -f $(DESTDIR)$(localedir)/locale.alias \
-	  && orig=$(DESTDIR)$(localedir)/locale.alias \
-	  || orig=$(srcdir)/locale.alias; \
-	temp=$(DESTDIR)$(localedir)/t-locale.alias; \
-	dest=$(DESTDIR)$(localedir)/locale.alias; \
-	sed -f ref-add.sed $$orig > $$temp; \
-	$(INSTALL_DATA) $$temp $$dest; \
-	rm -f $$temp
-
-installdirs-local: installdirs-aliasfile
-installdirs-aliasfile:
-	$(mkdir_p) $(DESTDIR)$(localedir)
-
-uninstall-local: uninstall-aliasfile
-uninstall-aliasfile: ref-del.sed
-	if test -f $(DESTDIR)$(localedir)/locale.alias; then \
-	  temp=$(DESTDIR)$(localedir)/t-locale.alias; \
-	  dest=$(DESTDIR)$(localedir)/locale.alias; \
-	  sed -f ref-del.sed $$dest > $$temp; \
-	  if grep '^# Packages using this file: $$' $$temp > /dev/null; then \
-	    rm -f $$dest; \
-	  else \
-	    $(INSTALL_DATA) $$temp $$dest; \
-	  fi; \
-	  rm -f $$temp; \
-	fi
 
 endif
 
