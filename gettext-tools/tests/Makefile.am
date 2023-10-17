@@ -122,6 +122,7 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-librep-1 xgettext-librep-2 xgettext-librep-3 \
 	xgettext-librep-stackovfl-1 xgettext-librep-stackovfl-2 \
 	xgettext-lisp-1 xgettext-lisp-2 xgettext-lisp-3 xgettext-lisp-4 \
+	xgettext-lisp-5 xgettext-lisp-6 \
 	xgettext-lisp-stackovfl-1 xgettext-lisp-stackovfl-2 \
 	xgettext-lua-1 xgettext-lua-2 xgettext-lua-3 \
 	xgettext-lua-stackovfl-1 xgettext-lua-stackovfl-2 \
@@ -148,13 +149,14 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-scheme-4 xgettext-scheme-5 xgettext-scheme-6 \
 	xgettext-scheme-stackovfl-1 xgettext-scheme-stackovfl-2 \
 	xgettext-sh-1 xgettext-sh-2 xgettext-sh-3 xgettext-sh-4 xgettext-sh-5 \
-	xgettext-sh-6 xgettext-sh-7 \
+	xgettext-sh-6 xgettext-sh-7 xgettext-sh-8 \
 	xgettext-sh-stackovfl-1 xgettext-sh-stackovfl-2 \
 	xgettext-sh-stackovfl-3 xgettext-sh-stackovfl-4 \
 	xgettext-sh-stackovfl-5 \
 	xgettext-smalltalk-1 xgettext-smalltalk-2 \
 	xgettext-stringtable-1 \
 	xgettext-tcl-1 xgettext-tcl-2 xgettext-tcl-3 xgettext-tcl-4 \
+	xgettext-tcl-5 \
 	xgettext-tcl-stackovfl-1 xgettext-tcl-stackovfl-2 \
 	xgettext-tcl-stackovfl-3 xgettext-tcl-stackovfl-4 \
 	xgettext-vala-1 xgettext-vala-2 xgettext-vala-3 xgettext-vala-4 \
