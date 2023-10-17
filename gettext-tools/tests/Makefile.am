@@ -83,6 +83,7 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-18 \
 	xgettext-appdata-1 \
 	xgettext-awk-1 xgettext-awk-2 \
+	xgettext-awk-stackovfl-1 xgettext-awk-stackovfl-2 \
 	xgettext-c-2 xgettext-c-3 xgettext-c-4 xgettext-c-5 xgettext-c-6 \
 	xgettext-c-comment-1 xgettext-c-comment-2 xgettext-c-comment-3 \
 	xgettext-c-comment-4 xgettext-c-comment-5 xgettext-c-comment-6 \
@@ -121,6 +122,8 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-lisp-1 xgettext-lisp-2 \
 	xgettext-lisp-stackovfl-1 xgettext-lisp-stackovfl-2 \
 	xgettext-lua-1 xgettext-lua-2 \
+	xgettext-lua-stackovfl-1 xgettext-lua-stackovfl-2 \
+	xgettext-lua-stackovfl-3 xgettext-lua-stackovfl-4 \
 	xgettext-objc-1 xgettext-objc-2 \
 	xgettext-perl-1 xgettext-perl-2 xgettext-perl-3 xgettext-perl-4 \
 	xgettext-perl-5 xgettext-perl-6 xgettext-perl-7 xgettext-perl-8 \
@@ -139,10 +142,16 @@ TESTS = gettext-1 gettext-2 \
 	xgettext-scheme-stackovfl-1 xgettext-scheme-stackovfl-2 \
 	xgettext-sh-1 xgettext-sh-2 xgettext-sh-3 xgettext-sh-4 xgettext-sh-5 \
 	xgettext-sh-6 xgettext-sh-7 \
+	xgettext-sh-stackovfl-1 xgettext-sh-stackovfl-2 \
+	xgettext-sh-stackovfl-3 xgettext-sh-stackovfl-4 \
+	xgettext-sh-stackovfl-5 \
 	xgettext-smalltalk-1 xgettext-smalltalk-2 \
 	xgettext-stringtable-1 \
 	xgettext-tcl-1 xgettext-tcl-2 xgettext-tcl-3 xgettext-tcl-4 \
+	xgettext-tcl-stackovfl-1 xgettext-tcl-stackovfl-2 \
+	xgettext-tcl-stackovfl-3 xgettext-tcl-stackovfl-4 \
 	xgettext-vala-1 xgettext-vala-2 \
+	xgettext-vala-stackovfl-1 xgettext-vala-stackovfl-2 \
 	xgettext-ycp-1 xgettext-ycp-2 xgettext-ycp-3 xgettext-ycp-4 \
 	format-awk-1 format-awk-2 \
 	format-boost-1 format-boost-2 \
