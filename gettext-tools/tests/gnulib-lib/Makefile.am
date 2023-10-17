@@ -1,5 +1,5 @@
-## Makefile for the adhoc-tests subdirectory of GNU libtextstyle.
-## Copyright (C) 2019-2023 Free Software Foundation, Inc.
+## Makefile for the gettext-tools/tests/gnulib-lib subdirectory of GNU gettext
+## Copyright (C) 2023 Free Software Foundation, Inc.
 ##
 ## This program is free software: you can redistribute it and/or modify
 ## it under the terms of the GNU General Public License as published by
@@ -16,37 +16,22 @@
 
 ## Process this file with automake to produce Makefile.in.
 
-AUTOMAKE_OPTIONS = 1.13 gnits
+AUTOMAKE_OPTIONS = 1.5 gnits subdir-objects no-dependencies
 EXTRA_DIST =
+BUILT_SOURCES =
 MOSTLYCLEANFILES = core *.stackdump
+MOSTLYCLEANDIRS =
 CLEANFILES =
 DISTCLEANFILES =
+MAINTAINERCLEANFILES =
+SUFFIXES =
 
-RM = rm -f
-
-# The list of programs that are built.
-noinst_PROGRAMS = hello
-
-# The source files of each program.
-hello_SOURCES = hello.c
-
-# Define the styles.
-noinst_DATA = hello-default.css
+noinst_LIBRARIES =
 
 # Note that Automake's $(DEFAULT_INCLUDES) already contains
 # -I. -I$(srcdir) -I$(top_builddir).
 AM_CPPFLAGS = \
-  -I../lib -I$(srcdir)/../lib \
-  -DSRCDIR=\"$(srcdir)/\"
+  -I../../gnulib-lib -I$(top_srcdir)/gnulib-lib
 
-# Link dependencies.
-LDADD = ../lib/libtextstyle.la
-
-# Additional files to be distributed.
-EXTRA_DIST += $(noinst_DATA)
-
-
-# Remove .deps directories created by 'configure'.
-# I would say that this left-over is an Automake 1.16.1 bug.
-distclean-local:
-	rm -rf $(DEPDIR) */$(DEPDIR)
+# Rules generated and collected by gnulib-tool.
+include Makefile.gnulib
