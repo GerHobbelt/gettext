@@ -304,6 +304,7 @@ struct extractor_ty
   struct formatstring_parser *formatstring_parser1;
   struct formatstring_parser *formatstring_parser2;
   struct formatstring_parser *formatstring_parser3;
+  struct formatstring_parser *formatstring_parser4;
 };
 
 
@@ -341,7 +342,7 @@ main (int argc, char *argv[])
   string_list_ty *file_list;
   char *output_file = NULL;
   const char *language = NULL;
-  extractor_ty extractor = { NULL, NULL, NULL, NULL, NULL, NULL };
+  extractor_ty extractor = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
   int cnt;
   size_t i;
 
@@ -842,7 +843,8 @@ xgettext cannot work without keywords to look for"));
       /* Temporarily reset the directory list to empty, because file_name
          is an output file and therefore should not be searched for.  */
       void *saved_directory_list = dir_list_save_reset ();
-      extractor_ty po_extractor = { extract_po, NULL, NULL, NULL, NULL, NULL };
+      extractor_ty po_extractor =
+        { extract_po, NULL, NULL, NULL, NULL, NULL, NULL };
 
       extract_from_file (file_name, po_extractor, mdlp);
       if (!is_ascii_msgdomain_list (mdlp))
@@ -1479,6 +1481,16 @@ xgettext_record_flag (const char *optionstring)
             if (strlen (format_language[type]) == n
                 && memcmp (format_language[type], p, n) == 0)
               {
+                /* This dispatch does the reverse mapping of all the SCANNERS_*
+                   macros defined in the x-*.h files.  For example,
+                   SCANNERS_JAVA contains an entry
+                     { ...,
+                       &flag_table_java,
+                       &formatstring_java, &formatstring_java_printf
+                     }
+                   Therefore here, we have to associate
+                     format_java          with   flag_table_java at index 0,
+                     format_java_printf   with   flag_table_java at index 1.  */
                 switch (type)
                   {
                   case format_c:
@@ -1495,6 +1507,9 @@ xgettext_record_flag (const char *optionstring)
                                                     name_start, name_end,
                                                     argnum, value, pass);
                     flag_context_list_table_insert (&flag_table_objc, 0,
+                                                    name_start, name_end,
+                                                    argnum, value, pass);
+                    flag_context_list_table_insert (&flag_table_vala, 0,
                                                     name_start, name_end,
                                                     argnum, value, pass);
                     break;
@@ -1873,6 +1888,7 @@ xgettext_open (const char *fn,
 struct formatstring_parser *current_formatstring_parser1;
 struct formatstring_parser *current_formatstring_parser2;
 struct formatstring_parser *current_formatstring_parser3;
+struct formatstring_parser *current_formatstring_parser4;
 
 
 static void
@@ -1885,6 +1901,7 @@ extract_from_file (const char *file_name, extractor_ty extractor,
   current_formatstring_parser1 = extractor.formatstring_parser1;
   current_formatstring_parser2 = extractor.formatstring_parser2;
   current_formatstring_parser3 = extractor.formatstring_parser3;
+  current_formatstring_parser4 = extractor.formatstring_parser4;
 
   if (extractor.extract_from_stream)
     {
@@ -1921,6 +1938,7 @@ extract_from_file (const char *file_name, extractor_ty extractor,
   current_formatstring_parser1 = NULL;
   current_formatstring_parser2 = NULL;
   current_formatstring_parser3 = NULL;
+  current_formatstring_parser4 = NULL;
 }
 
 static message_ty *
@@ -2204,6 +2222,7 @@ language_to_extractor (const char *name)
         result.formatstring_parser1 = tp->formatstring_parser1;
         result.formatstring_parser2 = tp->formatstring_parser2;
         result.formatstring_parser3 = NULL;
+        result.formatstring_parser4 = NULL;
 
         /* Handle --qt.  It's preferrable to handle this facility here rather
            than through an option --language=C++/Qt because the latter would
@@ -2234,7 +2253,7 @@ language_to_extractor (const char *name)
   error (EXIT_FAILURE, 0, _("language '%s' unknown"), name);
   /* NOTREACHED */
   {
-    extractor_ty result = { NULL, NULL, NULL, NULL, NULL, NULL };
+    extractor_ty result = { NULL, NULL, NULL, NULL, NULL, NULL, NULL };
     return result;
   }
 }
