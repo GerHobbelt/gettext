@@ -48,6 +48,7 @@
 #include "xmalloca.h"
 #include "c-strstr.h"
 #include "xvasprintf.h"
+#include "verify.h"
 #include "po-xerror.h"
 #include "gettext.h"
 
@@ -120,7 +121,9 @@ has_significant_format_p (const enum is_format is_format[NFORMATS])
 char *
 make_range_description_string (struct argument_range range)
 {
-  return xasprintf ("range: %d..%d", range.min, range.max);
+  char *result = xasprintf ("range: %d..%d", range.min, range.max);
+  assume (result != NULL);
+  return result;
 }
 
 
@@ -366,6 +369,7 @@ message_print_comment_filepos (const message_ty *mp, ostream_t stream,
                  Solaris.  Use the Solaris form here.  */
               str = xasprintf ("File: %s, line: %ld",
                                cp, (long) pp->line_number);
+              assume (str != NULL);
               ostream_write_str (stream, str);
               end_css_class (stream, class_reference);
               ostream_write_str (stream, "\n");
