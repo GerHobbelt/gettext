@@ -1531,7 +1531,7 @@ sub tag_CLOSURE () {
 
     my $closure = $realname{$program} . ".closure";
     my $lines = "$closure: \$($program\_OBJECTS) \$($program\_DEPENDENCIES)\n";
-    $lines .= "\t\@echo \"int main() {return 0;}\" > $program\_closure.$cxxsuffix\n";
+    $lines .= "\t\@echo \"int main(void) {return 0;}\" > $program\_closure.$cxxsuffix\n";
     $lines .= "\t\@\$\(LTCXXCOMPILE\) -c $program\_closure.$cxxsuffix\n";
     $lines .= "\t\$\(CXXLINK\) $program\_closure.lo \$($program\_LDFLAGS) \$($program\_OBJECTS) \$($program\_LIBADD) \$(LIBS)\n";
     $lines .= "\t\@rm -f $program\_closure.* $closure\n";

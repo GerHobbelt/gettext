@@ -1075,7 +1075,7 @@ cat >> conftest.$ac_ext <<EOF
 #error 1
 #endif
 
-int main() {
+int main(void) {
 EOF
 if test "$kde_qtver" = "2"; then
 cat >> conftest.$ac_ext <<EOF
@@ -1846,7 +1846,7 @@ cat > conftest.$ac_ext <<EOF
 #include "confdefs.h"
 #include <kapp.h>
 
-int main() {
+int main(void) {
     printf("kde_htmldir=\\"%s\\"\n", KApplication::kde_htmldir().data());
     printf("kde_appsdir=\\"%s\\"\n", KApplication::kde_appsdir().data());
     printf("kde_icondir=\\"%s\\"\n", KApplication::kde_icondir().data());
@@ -3831,7 +3831,7 @@ AC_LANG_C
 cat >conftest.$ac_ext <<EOF
 #include <stdio.h>
 #include <mico/version.h>
-int main() {
+int main(void) {
 
    printf("MICO_VERSION=%s\n",MICO_VERSION);
    return (0);
@@ -4274,7 +4274,7 @@ AC_TRY_RUN(dnl
 [
 #include <qimageio.h>
 #include <qstring.h>
-int main() {
+int main(void) {
 		QString t = "hallo";
 		t.fill('t');
 		qInitImageIO();
@@ -5288,7 +5288,7 @@ if test "$have_ssl" = yes; then
     cat >conftest.$ac_ext <<EOF
 #include <openssl/opensslv.h>
 #include <stdio.h>
-    int main() {
+    int main(void) {
  
 #ifndef OPENSSL_VERSION_NUMBER
       printf("ssl_version=\\"error\\"\n");
